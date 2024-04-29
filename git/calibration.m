@@ -2,15 +2,9 @@ close all;clear;clc;
 
 for pic_id=1:1:26
     load('data.mat','I1');
-%     figure,imshow(I1,[])
-%     figure,plot(sum(I1,1))
-%     figure,plot(I1(927,:))
-
-%     list=I1(927,1243:1260); %488
-    list=I1(927,1177:1192); %405
-%     list=I1(927,1090:1108); %638
+    list=I1(927,1177:1192);
     xx=1:1:length(list);
-%     figure,plot(list,'bo')
+    
     [fitresult, gof] = createFit(xx, list);
     calibration_result(pic_id)=fitresult.c;
 end
@@ -26,24 +20,9 @@ figure,scatter(xf,yf)
 
 function [fitresult, gof] = createFit(xx, list)
 %CREATEFIT(XX,LIST)
-%  创建一个拟合。
-%
-%  要进行 '无标题拟合 1' 拟合的数据:
-%      X 输入: xx
-%      Y 输出: list
-%  输出:
-%      fitresult: 表示拟合的拟合对象。
-%      gof: 带有拟合优度信息的结构体。
-%
-%  另请参阅 FIT, CFIT, SFIT.
 
-%  由 MATLAB 于 07-Sep-2023 10:14:28 自动生成
-
-
-%% 拟合: '无标题拟合 1'。
 [xData, yData] = prepareCurveData( xx, list );
 
-% 设置 fittype 和选项。
 ft = fittype( 'a*sin(b*x+c)+d', 'independent', 'x', 'dependent', 'y' );
 opts = fitoptions( 'Method', 'NonlinearLeastSquares' );
 opts.Display = 'Off';
@@ -53,14 +32,11 @@ opts.StartPoint = [a0,b0,c0,d0];
 opts.Lower=[a0*0.1,b0*0.1,-pi,d0*0.1];
 opts.Upper=[a0*10 ,b0*10 , pi,d0*10 ];
 
-% 对数据进行模型拟合。
 [fitresult, gof] = fit( xData, yData, ft, opts );
 
-% 绘制数据拟合图。
 figure( 'Name', '拟合' );
 h = plot( fitresult, xData, yData );
 legend( h, 'list vs. xx', '拟合', 'Location', 'NorthEast', 'Interpreter', 'none' );
-% 为坐标区加标签
 xlabel( 'xx', 'Interpreter', 'none' );
 ylabel( 'list', 'Interpreter', 'none' );
 % ylim([2.2,3.4])
