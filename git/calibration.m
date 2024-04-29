@@ -34,9 +34,9 @@ opts.Upper=[a0*10 ,b0*10 , pi,d0*10 ];
 
 [fitresult, gof] = fit( xData, yData, ft, opts );
 
-figure( 'Name', '拟合' );
+figure( 'Name', 'fit' );
 h = plot( fitresult, xData, yData );
-legend( h, 'list vs. xx', '拟合', 'Location', 'NorthEast', 'Interpreter', 'none' );
+legend( h, 'list vs. xx', 'fit', 'Location', 'NorthEast', 'Interpreter', 'none' );
 xlabel( 'xx', 'Interpreter', 'none' );
 ylabel( 'list', 'Interpreter', 'none' );
 % ylim([2.2,3.4])
